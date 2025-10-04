@@ -31,23 +31,22 @@
     <a href="https://www.mealgoo.com" target="_blank">🍽️ Notre site fait peau neuve ! Découvrez nos spécialités régionales et profitez d’offres exclusives de lancement.</a>
   </div>
 
-    <script>
-    // Chargement dynamique du contenu depuis le JSON avec protection anti-cache
-    fetch("https://pierrejmartin6-sys.github.io/mealgoo-asset/banner_config.json?cb=" + new Date().getTime())
-      .then(response => {
-        if (!response.ok) throw new Error('Erreur de chargement JSON');
-        return response.json();
-      })
-      .then(data => {
-        if (!data.active) return;
-        const banner = document.getElementById("mealgoo-banner");
-        banner.style.backgroundColor = data.color || "#66BB6A";
-        banner.innerHTML = `<a href="${data.link}" target="_blank">${data.text}</a>`;
-      })
-      .catch(error => {
-        console.warn("⚠️ Impossible de charger le JSON, utilisation du contenu par défaut.");
-      });
-  </script>
+   <script>
+  // Données locales temporaires (bypass GitHub cache)
+  const data = {
+    active: true,
+    text: "🍽️ Notre site fait peau neuve ! Découvrez nos spécialités régionales et profitez d’offres exclusives de lancement.",
+    link: "https://www.mealgoo.com",
+    color: "#66BB6A"
+  };
+
+  // Affichage immédiat du bandeau
+  if (data.active) {
+    const banner = document.getElementById("mealgoo-banner");
+    banner.style.backgroundColor = data.color;
+    banner.innerHTML = `<a href="${data.link}" target="_blank">${data.text}</a>`;
+  }
+</script>
    <!-- refresh build -->
 </body>
 </html>
