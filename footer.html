@@ -31,9 +31,9 @@
     <a href="https://www.mealgoo.com" target="_blank">🍽️ Notre site fait peau neuve ! Découvrez nos spécialités régionales et profitez d’offres exclusives de lancement.</a>
   </div>
 
-  <script>
-    // Chargement dynamique du contenu depuis le JSON
-    fetch("https://pierrejmartin6-sys.github.io/mealgoo-asset/banner_config.json")
+    <script>
+    // Chargement dynamique du contenu depuis le JSON avec protection anti-cache
+    fetch("https://pierrejmartin6-sys.github.io/mealgoo-asset/banner_config.json?cb=" + new Date().getTime())
       .then(response => {
         if (!response.ok) throw new Error('Erreur de chargement JSON');
         return response.json();
