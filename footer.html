@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footer MEALGOO</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    #mealgoo-banner {
+      text-align: center;
+      color: #fff;
+      font-size: 13px;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.10);
+      margin: 0;
+      padding: 12px 10px;
+      background-color: #66BB6A;
+    }
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="mealgoo-banner">
+    <a href="https://www.mealgoo.com" target="_blank">🍽️ Notre site fait peau neuve ! Découvrez nos spécialités régionales et profitez d’offres exclusives de lancement.</a>
+  </div>
+
+  <script>
+    // Chargement dynamique du contenu depuis le JSON
+    fetch("https://pierrejmartin6-sys.github.io/mealgoo-asset/banner_config.json")
+      .then(response => {
+        if (!response.ok) throw new Error('Erreur de chargement JSON');
+        return response.json();
+      })
+      .then(data => {
+        if (!data.active) return;
+        const banner = document.getElementById("mealgoo-banner");
+        banner.style.backgroundColor = data.color || "#66BB6A";
+        banner.innerHTML = `<a href="${data.link}" target="_blank">${data.text}</a>`;
+      })
+      .catch(error => {
+        console.warn("⚠️ Impossible de charger le JSON, utilisation du contenu par défaut.");
+      });
+  </script>
+</body>
+</html>
