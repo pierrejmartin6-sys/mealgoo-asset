@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footer MEALGOO</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    #mealgoo-banner {
+      text-align: center;
+      color: #fff;
+      font-size: 13px;
+      font-weight: bold;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+      margin: 0;
+      padding: 12px 10px;
+    }
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="mealgoo-banner">Chargement du bandeau...</div>
+  <script>
+    fetch("https://pierrejmartin6-sys.github.io/mealgoo-asset/banner_config.json")
+      .then(response => response.json())
+      .then(data => {
+        if (!data.active) {
+          document.body.innerHTML = '';
+          return;
+        }
+        const banner = document.getElementById("mealgoo-banner");
+        banner.style.backgroundColor = data.color;
+        banner.innerHTML = `<a href="${data.link}" target="_blank">${data.text}</a>`;
+      })
+      .catch(error => {
+        console.error("Erreur de chargement du bandeau:", error);
+        const banner = document.getElementById("mealgoo-banner");
+        banner.style.backgroundColor = "#6B4226";
+        banner.innerHTML = "Bandeau MEALGOO temporairement indisponible";
+      });
+  </script>
+</body>
+</html>
