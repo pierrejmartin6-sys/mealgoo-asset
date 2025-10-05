@@ -8,21 +8,25 @@
     body {
       margin: 0;
       padding: 0;
+      background-color: transparent;
       font-family: Arial, sans-serif;
     }
+
     #mealgoo-banner {
       display: flex;
-      justify-content: center;       /* Centre horizontalement */
-      align-items: center;           /* Centre verticalement */
-      height: 55px;                  /* Même hauteur que ton iframe */
-      color: #fff;
-      font-size: 13px;
-      font-weight: bold;
+      align-items: center;         /* ✅ Centre verticalement */
+      justify-content: center;     /* ✅ Centre horizontalement */
       text-align: center;
-      background-color: #388E3C;
-      padding: 0 12px;
-      box-sizing: border-box;
+      background-color: #388E3C;   /* Vert Mealgoo */
+      color: #fff;
+      font-weight: bold;
+      font-size: 13.5px;
+      line-height: 1.4;
+      height: 55px;                /* ✅ Hauteur contrôlée pour un centrage parfait */
+      padding: 0 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
+
     a {
       color: #fff;
       text-decoration: none;
@@ -32,8 +36,7 @@
 <body>
   <div id="mealgoo-banner">
     <a href="https://www.mealgoo.com" target="_blank">
-      🍽️ Notre site fait peau neuve ! Découvrez nos spécialités régionales 
-      et profitez d’offres exclusives de lancement.
+      🍽️ Notre site fait peau neuve ! Découvrez nos spécialités régionales et profitez d’offres exclusives de lancement.
     </a>
   </div>
 </body>
