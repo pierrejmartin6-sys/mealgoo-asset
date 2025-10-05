@@ -1,38 +1,46 @@
-# Script : update_footer.py
-# Objectif : régénérer automatiquement le fichier footer.png à partir du footer.html
-# Auteur : Pierre Martin (MEALGOO)
-
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from PIL import Image
-import time
+from PIL import Image, ImageDraw, ImageFont
+from datetime import datetime
 import os
 
-# Configuration du navigateur en mode "headless" (sans interface)
-options = Options()
-options.add_argument("--headless")
-options.add_argument("--disable-gpu")
-options.add_argument("--window-size=1200,200")
+# --- CONFIGURATION ---
+output_path = "footer.png"
+width = 480  # largeur pour correspondre à la signature Gmail
+height = 80
+bg_color = "#2d8a3c"
+text_color = "white"
+font_path = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"  # macOS
+font_size = 18
 
-# Lancer Chrome avec Selenium
-driver = webdriver.Chrome(options=options)
+# --- TEXTE DU BANDEAU ---
+text = "🍽️ Notre site fait peau neuve ! Découvrez nos spécialités régionales et profitez d’offres exclusives de lancement."
 
-# Ouvrir le fichier footer.html local
-footer_path = os.path.abspath("footer.html")
-driver.get("file://" + footer_path)
+# --- CRÉATION DU CANVAS ---
+img = Image.new("RGB", (width, height), bg_color)
+draw = ImageDraw.Draw(img)
+font = ImageFont.truetype(font_path, font_size)
 
-# Attendre un court instant pour s’assurer que tout est chargé
-time.sleep(2)
+# Centrer le texte
+text_width = draw.textlength(text, font=font)
+x = (width - text_width) / 2
+y = (height - font_size) / 2
 
-# Capturer une capture d’écran de toute la page
-driver.save_screenshot("footer_full.png")
+# --- DESSIN DU TEXTE ---
+draw.text((x, y), text, font=font, fill=text_color)
 
-# Rogner automatiquement la zone utile (le bandeau vert)
-img = Image.open("footer_full.png")
-bbox = img.getbbox()
-cropped = img.crop(bbox)
-cropped.save("footer.png")
+# --- AJOUT DU TIMESTAMP DANS LES MÉTADONNÉES ---
+img.info["Generated"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-driver.quit()
-print("✅ Nouveau footer.png généré avec succès !")
+# --- SAUVEGARDE ---
+img.save(output_path, format="PNG")
+print(f"✅ Nouveau {output_path} généré avec succès ({width}x{height}px) !")
 
+# --- RAPPEL DU CODE HTML POUR GMAIL ---
+print("\n🧩 Code à coller dans Google Workspace Admin :\n")
+print(f'''
+<a href="https://www.mealgoo.com" target="_blank">
+  <img src="https://raw.githubusercontent.com/pierrejmartin6-sys/mealgoo-asset/refs/heads/main/footer.png" 
+       alt="Bandeau promotionnel MEALGOO" 
+       width="{width}" 
+       style="border:none; display:block; margin:auto;">
+</a>
+''')
