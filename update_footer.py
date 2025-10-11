@@ -1,46 +1,48 @@
 from PIL import Image, ImageDraw, ImageFont
-from datetime import datetime
+import textwrap
 import os
 
-# --- CONFIGURATION ---
-output_path = "footer.png"
-width = 480  # largeur pour correspondre à la signature Gmail
-height = 80
-bg_color = "#2d8a3c"
-text_color = "white"
-font_path = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"  # macOS
-font_size = 18
+# Dimensions du bandeau
+WIDTH = 480
+HEIGHT = 120
+BACKGROUND_COLOR = (46, 139, 66)  # Vert #2E8B42
+TEXT_COLOR = (255, 255, 255)
 
-# --- TEXTE DU BANDEAU ---
-text = "🍽️ Notre site fait peau neuve ! Découvrez nos spécialités régionales et profitez d’offres exclusives de lancement."
+# Lecture du texte dans le fichier
+message_file = "footer_message.txt"
+if os.path.exists(message_file):
+    with open(message_file, "r", encoding="utf-8") as f:
+        message = f.read().strip()
+else:
+    message = "🍽️ Notre site fait peau neuve ! Découvrez nos spécialités régionales."
 
-# --- CRÉATION DU CANVAS ---
-img = Image.new("RGB", (width, height), bg_color)
+# Création de l'image
+img = Image.new("RGBA", (WIDTH, HEIGHT), BACKGROUND_COLOR)
 draw = ImageDraw.Draw(img)
-font = ImageFont.truetype(font_path, font_size)
 
-# Centrer le texte
-text_width = draw.textlength(text, font=font)
-x = (width - text_width) / 2
-y = (height - font_size) / 2
+# Chargement police (système)
+try:
+    font = ImageFont.truetype("Arial Bold.ttf", 22)
+except:
+    font = ImageFont.load_default()
 
-# --- DESSIN DU TEXTE ---
-draw.text((x, y), text, font=font, fill=text_color)
+# Ajustement automatique du texte (centrage)
+wrapped = textwrap.fill(message, width=45)
+w, h = draw.multiline_textsize(wrapped, font=font)
+draw.multiline_text(
+    ((WIDTH - w) / 2, (HEIGHT - h) / 2),
+    wrapped,
+    fill=TEXT_COLOR,
+    font=font,
+    align="center"
+)
 
-# --- AJOUT DU TIMESTAMP DANS LES MÉTADONNÉES ---
-img.info["Generated"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+# Enregistrement
+img.save("footer.png", "PNG", optimize=True)
 
-# --- SAUVEGARDE ---
-img.save(output_path, format="PNG")
-print(f"✅ Nouveau {output_path} généré avec succès ({width}x{height}px) !")
-
-# --- RAPPEL DU CODE HTML POUR GMAIL ---
+print("✅ Nouveau footer.png généré avec succès (480x120px) !")
 print("\n🧩 Code à coller dans Google Workspace Admin :\n")
-print(f'''
-<a href="https://www.mealgoo.com" target="_blank">
-  <img src="https://raw.githubusercontent.com/pierrejmartin6-sys/mealgoo-asset/refs/heads/main/footer.png" 
-       alt="Bandeau promotionnel MEALGOO" 
-       width="{width}" 
-       style="border:none; display:block; margin:auto;">
-</a>
-''')
+print('<a href="https://www.mealgoo.com" target="_blank">')
+print('  <img src="https://raw.githubusercontent.com/pierrejmartin6-sys/mealgoo-asset/refs/heads/main/footer.png"')
+print('       alt="Bandeau promotionnel MEALGOO" width="480" style="border:none; display:block; margin:auto;">')
+print('</a>')
