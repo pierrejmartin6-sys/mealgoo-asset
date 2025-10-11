@@ -1,6 +1,5 @@
 import os
 from PIL import Image, ImageDraw, ImageFont
-import datetime
 
 # --- Nettoyage des anciens footers ---
 for f in os.listdir('.'):
@@ -17,16 +16,16 @@ else:
     message = "🎉 Livraison gratuite ce mois-ci — Commandez dès maintenant !"
 
 # --- Configuration du visuel ---
-width, height = 480, 120
-bg_color = "#2E7D32"  # vert Mealgoo
+width, height = 480, 50   # ✅ Bandeau encore plus fin
+bg_color = "#2E7D32"      # Vert Mealgoo
 text_color = "#ffffff"
-font_size = 18
+font_size = 15            # Texte ajusté
 
 # --- Création du bandeau ---
 img = Image.new("RGB", (width, height), bg_color)
 draw = ImageDraw.Draw(img)
 
-# Chargement de la police (chute sur police système si besoin)
+# Chargement de la police
 try:
     font = ImageFont.truetype("Arial.ttf", font_size)
 except:
@@ -38,7 +37,8 @@ words = message.split()
 current = words[0]
 for word in words[1:]:
     test_line = current + " " + word
-    w, _ = draw.textsize(test_line, font=font)
+    bbox = draw.textbbox((0, 0), test_line, font=font)
+    w = bbox[2] - bbox[0]
     if w < (width - 40):
         current = test_line
     else:
@@ -46,13 +46,16 @@ for word in words[1:]:
         current = word
 lines.append(current)
 
-total_height = len(lines) * (font_size + 6)
+# Centrage vertical ajusté pour faible hauteur
+total_height = len(lines) * (font_size + 1)
 y_start = (height - total_height) // 2
 
+# Dessin du texte centré
 for line in lines:
-    w, h = draw.textsize(line, font=font)
+    bbox = draw.textbbox((0, 0), line, font=font)
+    w = bbox[2] - bbox[0]
     draw.text(((width - w) / 2, y_start), line, fill=text_color, font=font)
-    y_start += font_size + 6
+    y_start += font_size + 1
 
 # --- Sauvegarde finale ---
 footer_file = "footer.png"
