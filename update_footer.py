@@ -26,8 +26,9 @@ img = Image.new("RGB", (width, height), bg_color)
 draw = ImageDraw.Draw(img)
 
 # Chargement de la police
+font_size = 24  # un peu plus grand, sans changer la hauteur totale
 try:
-    font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Arial Bold.ttf", font_size)
+    font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Helvetica Bold.ttf", font_size)
 except:
     font = ImageFont.load_default()
 
@@ -54,7 +55,14 @@ y_start = (height - total_height) // 2 - 2
 for line in lines:
     bbox = draw.textbbox((0, 0), line, font=font)
     w = bbox[2] - bbox[0]
-    draw.text(((width - w) / 2, y_start), line, fill=text_color, font=font)
+    x = (width - w) / 2
+
+    # Ombre légère pour renforcer la lecture du texte
+    draw.text((x+1, y_start+1), line, fill="#1b5e20", font=font)
+
+    # Texte principal
+    draw.text((x, y_start), line, fill=text_color, font=font)
+
     y_start += font_size + 1
 
 # --- Sauvegarde finale ---
