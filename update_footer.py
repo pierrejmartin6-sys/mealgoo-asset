@@ -28,10 +28,9 @@ draw = ImageDraw.Draw(img)
 # Chargement de la police
 font_size = 16  # un peu plus grand, sans changer la hauteur totale
 try:
-    # DejaVuSans gère parfaitement les accents et les emojis sur macOS/Linux
-    font = ImageFont.truetype("/Library/Fonts/DejaVuSans-Bold.ttf", font_size)
-except:
     font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Arial Unicode.ttf", font_size)
+except:
+    font = ImageFont.truetype("/Library/Fonts/DejaVuSans-Bold.ttf", font_size)
 
 # --- Centrage du texte sur deux lignes max ---
 lines = []
