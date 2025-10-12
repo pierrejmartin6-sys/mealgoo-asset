@@ -47,8 +47,8 @@ for word in words[1:]:
 lines.append(current)
 
 # Centrage vertical ajusté pour faible hauteur
-total_height = len(lines) * (font_size + 1)
-y_start = (height - total_height) // 2
+total_height = len(lines) * (font_size + 4)
+y_start = (height - total_height) // 2 - 2
 
 # Dessin du texte centré
 for line in lines:
