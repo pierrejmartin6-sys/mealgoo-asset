@@ -1,11 +1,6 @@
 import os
+import sys
 from PIL import Image, ImageDraw, ImageFont
-
-# --- Nettoyage des anciens footers ---
-for f in os.listdir('.'):
-    if f.startswith('footer_') and f.endswith('.png'):
-        os.remove(f)
-        print(f"🧹 Ancien fichier supprimé : {f}")
 
 # --- Lecture du texte depuis footer_message.txt ---
 message_file = 'footer_message.txt'
@@ -13,59 +8,62 @@ if os.path.exists(message_file):
     with open(message_file, 'r', encoding='utf-8') as f:
         message = f.read().strip()
 else:
-   message = "🍽️ Notre site fait peau neuve ! Découvrez nos spécialités régionales et profitez d’offres exclusives de lancement."
+    message = "🎉 Livraison gratuite ce mois-ci – Commandez dès maintenant !"
 
-# --- Configuration du visuel ---
-width, height = 380, 40   # ✅ Bandeau encore plus fin
-bg_color = "#2E7D32"      # Vert Mealgoo
-text_color = "#ffffff"
-font_size = 16            # Texte ajusté
+# --- Paramètres visuels ---
+width, height = 480, 80
+bg_color = "#2E7D32"  # Vert Mealgoo
+text_color = "#FFFFFF"
+font_size = 20
 
 # --- Création du bandeau ---
 img = Image.new("RGB", (width, height), bg_color)
 draw = ImageDraw.Draw(img)
 
 # Chargement de la police
-font_size = 16  # un peu plus grand, sans changer la hauteur totale
 try:
-    font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Arial Unicode.ttf", font_size)
+    font = ImageFont.truetype("Arial.ttf", font_size)
 except:
-    font = ImageFont.truetype("/Library/Fonts/DejaVuSans-Bold.ttf", font_size)
+    font = ImageFont.load_default()
 
-# --- Centrage du texte sur deux lignes max ---
-lines = []
+# --- Découpage automatique en lignes ---
 words = message.split()
-current = words[0]
+lines, current = [], words[0]
 for word in words[1:]:
     test_line = current + " " + word
     bbox = draw.textbbox((0, 0), test_line, font=font)
     w = bbox[2] - bbox[0]
-    if w < (width - 60):
+    if w < (width - 40):
         current = test_line
     else:
         lines.append(current)
         current = word
 lines.append(current)
 
-# Centrage vertical ajusté pour faible hauteur
-total_height = len(lines) * (font_size + 1)
-y_start = (height - total_height) // 2 - 2
+# --- Centrage vertical du texte ---
+total_height = len(lines) * (font_size + 6)
+y_start = (height - total_height) // 2
 
-# Dessin du texte centré
+# --- Dessin du texte avec légère ombre ---
 for line in lines:
     bbox = draw.textbbox((0, 0), line, font=font)
     w = bbox[2] - bbox[0]
     x = (width - w) / 2
-
-    # Ombre légère pour renforcer la lecture du texte
-    draw.text((x+1, y_start+1), line, fill="#1b5e20", font=font)
-
+    # Ombre douce
+    draw.text((x + 1, y_start + 1), line, fill="#1b5e20", font=font)
     # Texte principal
     draw.text((x, y_start), line, fill=text_color, font=font)
+    y_start += font_size + 6
 
-    y_start += font_size + 1
+# --- Vérifie si on veut une preview ---
+if "--preview" in sys.argv:
+    print("👀 Mode aperçu activé : le fichier ne sera pas enregistré.")
+    preview_temp = "preview_footer.png"
+    img.save(preview_temp)
+    os.system(f"open {preview_temp}")  # Ouvre automatiquement l'image dans Aperçu (macOS)
+    sys.exit(0)
 
-# --- Sauvegarde finale ---
+# --- Sinon, on sauvegarde normalement ---
 footer_file = "footer.png"
 img.save(footer_file)
 
@@ -80,3 +78,9 @@ print(f"""
        style="border:none; display:block; margin:auto;">
 </a>
 """)
+
+# --- Ouvre automatiquement le footer une fois généré ---
+try:
+    os.system("open footer.png")
+except Exception as e:
+    print(f"⚠️ Impossible d’ouvrir automatiquement l’image : {e}")
