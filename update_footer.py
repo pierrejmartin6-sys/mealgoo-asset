@@ -26,7 +26,7 @@ img = Image.new("RGB", (width, height), bg_color)
 draw = ImageDraw.Draw(img)
 
 # Chargement de la police
-font_size = 24  # un peu plus grand, sans changer la hauteur totale
+font_size = 18  # un peu plus grand, sans changer la hauteur totale
 try:
     font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Helvetica Bold.ttf", font_size)
 except:
