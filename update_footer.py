@@ -27,7 +27,7 @@ draw = ImageDraw.Draw(img)
 
 # Chargement de la police
 try:
-    font = ImageFont.truetype("Arial.ttf", font_size)
+    font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Arial Bold.ttf", font_size)
 except:
     font = ImageFont.load_default()
 
