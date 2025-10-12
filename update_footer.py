@@ -16,10 +16,10 @@ else:
     message = "🎉 Livraison gratuite ce mois-ci — Commandez dès maintenant !"
 
 # --- Configuration du visuel ---
-width, height = 480, 50   # ✅ Bandeau encore plus fin
+width, height = 380, 40   # ✅ Bandeau encore plus fin
 bg_color = "#2E7D32"      # Vert Mealgoo
 text_color = "#ffffff"
-font_size = 15            # Texte ajusté
+font_size = 17            # Texte ajusté
 
 # --- Création du bandeau ---
 img = Image.new("RGB", (width, height), bg_color)
