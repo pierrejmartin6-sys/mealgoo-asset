@@ -40,7 +40,7 @@ for word in words[1:]:
     test_line = current + " " + word
     bbox = draw.textbbox((0, 0), test_line, font=font)
     w = bbox[2] - bbox[0]
-    if w < (width - 40):
+    if w < (width - 60):
         current = test_line
     else:
         lines.append(current)
