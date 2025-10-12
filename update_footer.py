@@ -13,13 +13,13 @@ if os.path.exists(message_file):
     with open(message_file, 'r', encoding='utf-8') as f:
         message = f.read().strip()
 else:
-    message = "🎉 Livraison gratuite ce mois-ci — Commandez dès maintenant !"
+   message = "🍽️ Notre site fait peau neuve ! Découvrez nos spécialités régionales et profitez d’offres exclusives de lancement."
 
 # --- Configuration du visuel ---
 width, height = 380, 40   # ✅ Bandeau encore plus fin
 bg_color = "#2E7D32"      # Vert Mealgoo
 text_color = "#ffffff"
-font_size = 20            # Texte ajusté
+font_size = 18            # Texte ajusté
 
 # --- Création du bandeau ---
 img = Image.new("RGB", (width, height), bg_color)
