@@ -19,16 +19,16 @@ else:
 width, height = 380, 40   # ✅ Bandeau encore plus fin
 bg_color = "#2E7D32"      # Vert Mealgoo
 text_color = "#ffffff"
-font_size = 18            # Texte ajusté
+font_size = 16            # Texte ajusté
 
 # --- Création du bandeau ---
 img = Image.new("RGB", (width, height), bg_color)
 draw = ImageDraw.Draw(img)
 
 # Chargement de la police
-font_size = 18  # un peu plus grand, sans changer la hauteur totale
+font_size = 16  # un peu plus grand, sans changer la hauteur totale
 try:
-    font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Helvetica Bold.ttf", font_size)
+    font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Arial-Bold.ttf", font_size)
 except:
     font = ImageFont.load_default()
 
